@@ -2,7 +2,7 @@
 name = "one-redis-ui"
 version = "0.1.0"
 description = "A Tauri App"
-authors = ["you"]
+authors = ["zhengxiaojian@apache.org"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -22,5 +22,6 @@ tauri = { version = "2.0.0", features = [] }
 tauri-plugin-shell = "2.0.0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-redis = "0.27.4"
-
+redis = { version = "0.27.4", features = ["cluster", "tokio-comp", "tokio-rustls-comp"] }
+api = { version = "0.1.0", path = "../api" }
+tokio = { version = "1.40.0", features = ["full"] }
