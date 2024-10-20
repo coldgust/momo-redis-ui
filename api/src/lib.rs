@@ -1,3 +1,5 @@
+pub mod error;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -13,7 +15,7 @@ pub struct ConnInfo {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ConnAddr {
-    Standalone(String, u16),
+    Standalone(String/*host*/, u16/*port*/, i64/*db*/),
     Cluster(),
     Sentinel {
         host: String,
@@ -25,8 +27,13 @@ pub enum ConnAddr {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SslParams {
-    pub public_key: Option<String>,
-    pub private_key: Option<String>,
+    pub client_cert: Option<ClientCert>,
     pub ca_cert: Option<String>,
     pub hostname_verify: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ClientCert {
+    pub cert: String,
+    pub key: String,
 }
