@@ -5,6 +5,7 @@ use thaw::{Card};
 pub fn ConnectionCard() -> impl IntoView {
     view! {
         <Card>
+            <div>test</div>
         </Card>
     }
 }
