@@ -2,6 +2,7 @@ use crate::redis_commands::{get, set};
 use tauri::Manager;
 
 mod redis_commands;
+mod types;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

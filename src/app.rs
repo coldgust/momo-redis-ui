@@ -2,9 +2,11 @@ use api::ConnInfo;
 use leptos::ev::{Event, SubmitEvent};
 use leptos::*;
 use serde::{Deserialize, Serialize};
-use thaw::{Layout, LayoutHeader, LayoutSider};
+use serde_wasm_bindgen::from_value;
+use thaw::{use_message, Layout, LayoutHeader, LayoutSider, MessageOptions, MessageVariant, MessageProvider};
 use wasm_bindgen::prelude::*;
 use api::ConnAddr::Standalone;
+use api::error::Error;
 
 #[wasm_bindgen]
 extern "C" {
@@ -20,7 +22,7 @@ extern "C" {
 struct SetArgs<'a> {
     key: &'a str,
     val: &'a str,
-    into: ConnInfo,
+    info: ConnInfo,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -38,6 +40,8 @@ pub fn App() -> impl IntoView {
         set_value.set(v);
     };
 
+    let message = use_message();
+
     let submit = move |ev: SubmitEvent| {
         ev.prevent_default();
         spawn_local(async move {
@@ -48,7 +52,7 @@ pub fn App() -> impl IntoView {
             let args = serde_wasm_bindgen::to_value(&SetArgs {
                 key: "test",
                 val: &v,
-                into: ConnInfo {
+                info: ConnInfo {
                     name: "test".into(),
                     addr: Standalone("127.0.0.1".into(), 6379, 0),
                     read_only: false,
@@ -59,7 +63,13 @@ pub fn App() -> impl IntoView {
                 },
             }).unwrap();
 
-            invoke("set", args).await.unwrap();
+            match invoke("set", args).await {
+                Ok(_) => { message.create("success".into(), MessageVariant::Success, MessageOptions::default()) }
+                Err(err) => {
+                    let e = from_value::<Error>(err).unwrap();
+                    message.create(format!("{}", e), MessageVariant::Error, MessageOptions::default())
+                }
+            }
         })
     };
 

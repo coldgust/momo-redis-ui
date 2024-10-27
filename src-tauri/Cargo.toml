@@ -26,3 +26,4 @@ redis = { version = "0.27.4", features = ["cluster", "tokio-comp", "tokio-rustls
 api = { version = "0.1.0", path = "../api" }
 tokio = { version = "1.40.0", features = ["full"] }
 rustls = "0.23.15"
+thiserror = "1.0.65"

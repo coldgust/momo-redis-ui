@@ -1,27 +1,28 @@
 use api::error::Error;
 use api::{ClientCert, ConnAddr, ConnInfo};
-use redis::{AsyncCommands, Client, ClientTlsConfig, ConnectionAddr, ConnectionInfo, ProtocolVersion, RedisConnectionInfo, TlsCertificates};
+use redis::{AsyncCommands, Client, ClientTlsConfig, ConnectionAddr, ConnectionInfo, ProtocolVersion, RedisConnectionInfo, RedisError, TlsCertificates};
 use std::fs;
+use crate::types::ServerError;
 
 #[tauri::command]
-pub async fn set(key: String, val: String, info: ConnInfo) -> Result<(), Error> {
+pub async fn set(key: String, val: String, info: ConnInfo) -> Result<String, ServerError> {
     let client = create_client(info).await?;
     let mut conn = client.get_multiplexed_async_connection().await?;
     conn.set(&key, val).await?;
-    Ok(())
+    Ok("OK".to_string())
 }
 
 #[tauri::command]
-pub async fn get(key: String, info: ConnInfo) -> Result<String, Error> {
+pub async fn get(key: String, info: ConnInfo) -> Result<String, ServerError> {
     let client = create_client(info).await?;
     let mut conn = client.get_multiplexed_async_connection().await?;
     Ok(conn.get(&key).await?)
 }
 
-async fn create_client(info: ConnInfo) -> Result<Client, Error> {
+async fn create_client(info: ConnInfo) -> Result<Client, ServerError> {
     let (host, port, db) = match info.addr {
         ConnAddr::Standalone(h, p, db) => (h, p, db),
-        _ => return Err(Error::NonsupportConnType),
+        _ => return Err(ServerError::UnsupportedConnType),
     };
     let redis_conn_info = RedisConnectionInfo {
         db,

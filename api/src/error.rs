@@ -9,7 +9,10 @@ pub struct Error {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub enum ErrorKind {
-    Unknown
+    Unknown,
+    Redis,
+    UnsupportedConnType,
+    IO,
 }
 
 impl Display for Error {
