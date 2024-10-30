@@ -1,9 +1,10 @@
 use api::ConnInfo;
 use leptos::ev::{Event, SubmitEvent};
-use leptos::*;
+use leptos::prelude::*;
+use leptos::task::spawn_local;
 use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::from_value;
-use thaw::{use_message, Layout, LayoutHeader, LayoutSider, MessageOptions, MessageVariant, MessageProvider};
+use thaw::{Layout, LayoutHeader, LayoutSider, Toast, ToastIntent, ToastOptions, ToastPosition, ToastTitle, ToasterInjection};
 use wasm_bindgen::prelude::*;
 use api::ConnAddr::Standalone;
 use api::error::Error;
@@ -33,15 +34,15 @@ struct GetArgs<'a> {
 
 #[component]
 pub fn App() -> impl IntoView {
-    let (value, set_value) = create_signal(String::new());
-
+    let (value, set_value) = signal(String::new());
+    
     let update_value = move |ev: Event| {
         let v = event_target_value(&ev);
         set_value.set(v);
     };
-
-    let message = use_message();
-
+    
+    let toaster = ToasterInjection::expect_context();
+    
     let submit = move |ev: SubmitEvent| {
         ev.prevent_default();
         spawn_local(async move {
@@ -62,12 +63,22 @@ pub fn App() -> impl IntoView {
                     ssl: None,
                 },
             }).unwrap();
-
+    
             match invoke("set", args).await {
-                Ok(_) => { message.create("success".into(), MessageVariant::Success, MessageOptions::default()) }
+                Ok(_) => {
+                    toaster.dispatch_toast(move || view! {
+                    <Toast>
+                        <ToastTitle>success!</ToastTitle>
+                    </Toast>
+                }, ToastOptions::default().with_intent(ToastIntent::Success).with_position(ToastPosition::Top))
+                }
                 Err(err) => {
                     let e = from_value::<Error>(err).unwrap();
-                    message.create(format!("{}", e), MessageVariant::Error, MessageOptions::default())
+                    toaster.dispatch_toast(move || view! {
+                        <Toast>
+                            <ToastTitle>{ e.msg }</ToastTitle>
+                        </Toast>
+                    }, ToastOptions::default().with_intent(ToastIntent::Error).with_position(ToastPosition::Top))
                 }
             }
         })
@@ -75,15 +86,15 @@ pub fn App() -> impl IntoView {
 
     view! {
         <Layout has_sider=true>
-            <LayoutSider style="background-color: #0078ff99; padding: 20px;">
+            <LayoutSider attr:style="background-color: #0078ff99; padding: 20px;">
                 "Sider"
             </LayoutSider>
             <Layout>
-                <LayoutHeader style="background-color: #0078ffaa; padding: 20px;">
+                <LayoutHeader attr:style="background-color: #0078ffaa; padding: 20px;">
                     "Header"
                 </LayoutHeader>
-                <Layout style="background-color: #0078ff88; padding: 20px;">
-                        <form class="row" on:submit=submit>
+                <Layout attr:style="background-color: #0078ff88; padding: 20px;">
+                    <form class="row" on:submit=submit>
                         <input
                             id="greet-input"
                             placeholder="Enter a name..."

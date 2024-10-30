@@ -3,9 +3,9 @@ mod connection;
 mod menu;
 
 use app::*;
-use leptos::*;
+use leptos::prelude::*;
 use leptos_i18n::load_locales;
-use thaw::MessageProvider;
+use thaw::{ConfigProvider, ToasterProvider};
 
 load_locales!();
 
@@ -13,9 +13,11 @@ fn main() {
     console_error_panic_hook::set_once();
     mount_to_body(|| {
         view! {
-            <MessageProvider>
-                <App/>
-            </MessageProvider>
+            <ConfigProvider>
+                <ToasterProvider>
+                    <App/>
+                </ToasterProvider>
+            </ConfigProvider>
         }
     })
 }
