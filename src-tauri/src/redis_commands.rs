@@ -5,11 +5,11 @@ use std::fs;
 use crate::types::ServerError;
 
 #[tauri::command]
-pub async fn set(key: String, val: String, info: ConnInfo) -> Result<String, ServerError> {
+pub async fn set(key: String, val: String, info: ConnInfo) -> Result<(), ServerError> {
     let client = create_client(info).await?;
     let mut conn = client.get_multiplexed_async_connection().await?;
     conn.set(&key, val).await?;
-    Ok("OK".to_string())
+    Ok(())
 }
 
 #[tauri::command]
