@@ -14,11 +14,9 @@ serde-wasm-bindgen = "0.6"
 console_error_panic_hook = "0.1.7"
 leptos_i18n = { version = "0.5.0-gamma2", features = ["csr"] }
 thaw = { version = "0.4.0-beta4", features = ["csr"] }
-stylers = "0.3.2"
 api = { version = "0.1.0", path = "api" }
-
-[build-dependencies]
-stylers = "0.3.2"
+turf = "0.9.4"
+uuid = "1.11.0"
 
 [workspace]
 members = ["api", "src-tauri"]
@@ -26,3 +24,9 @@ members = ["api", "src-tauri"]
 [package.metadata.leptos-i18n]
 default = "en"
 locales = ["en", "zh"]
+
+[package.metadata.turf]
+minify = true
+
+[package.metadata.turf.class_names]
+template = "momo_<original_name>_<id>"

@@ -1,0 +1,54 @@
+.sider {
+  background-color: #fff;
+  position: relative;
+  float: left;
+  height: 100vh;
+}
+
+.content {
+  height: 100vh;
+  padding: 16px;
+  background-color: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.resize-content {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  overflow-x: hidden;
+}
+
+.resize-bar {
+  width: 300px;
+  height: inherit;
+  resize: horizontal;
+  cursor: col-resize;
+  opacity: 0;
+  overflow: scroll;
+}
+
+.resize-line {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-right: 2px solid #eee;
+  border-left: 1px solid #bbb;
+  pointer-events: none;
+}
+
+.resize-bar:hover ~ .resize-line,
+
+.resize-bar:active ~ .resize-line {
+  border-left: 1px dashed skyblue;
+}
+
+.resize-bar::-webkit-scrollbar {
+  width: 300px;
+  height: inherit;
+}
