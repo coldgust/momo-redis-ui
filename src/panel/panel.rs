@@ -10,7 +10,16 @@ pub fn Panel() -> impl IntoView {
 
     view! {
         <TabList selected_value>
-            <Tab value="">test</Tab>
+            <For
+                each=move || tabs.get()
+                key=move |item| item.id.clone()
+                children=|item| {
+                    view! {
+                        <Tab value=item.id>{item.name}</Tab>
+                    }
+                }
+            >
+            </For>
         </TabList>
     }
 }

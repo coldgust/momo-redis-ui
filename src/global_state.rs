@@ -2,7 +2,7 @@ use leptos::prelude::*;
 
 #[derive(Debug, Clone, Default)]
 pub struct GlobalState {
-    pub tabs: ArcRwSignal<Vec<TabProp>>,
+    pub tabs: RwSignal<Vec<TabProp>>,
     pub selected_tab: RwSignal<String>,
 }
 
