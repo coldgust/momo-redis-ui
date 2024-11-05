@@ -2,5 +2,8 @@
   "new_connection": "new connection",
   "settings": "settings",
   "confirm": "confirm",
-  "cancel": "cancel"
+  "cancel": "cancel",
+  "setting": {
+    "language": "Language"
+  }
 }
