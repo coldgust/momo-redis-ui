@@ -2,6 +2,8 @@ use api::error::{Error, ErrorKind};
 use redis::RedisError;
 use serde::Serializer;
 
+pub type ServerResult<T> = Result<T, ServerError>;
+
 #[derive(Debug, thiserror::Error)]
 pub enum ServerError {
     #[error(transparent)]
