@@ -14,6 +14,7 @@ pub enum ServerError {
 
     #[error(transparent)]
     IoError(#[from] std::io::Error),
+
 }
 
 impl serde::Serialize for ServerError {
@@ -34,7 +35,7 @@ impl serde::Serialize for ServerError {
             ServerError::IoError(_) => Error {
                 msg: err_msg,
                 kind: ErrorKind::IO,
-            }
+            },
         };
         err.serialize(serializer)
     }

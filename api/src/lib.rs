@@ -16,7 +16,7 @@ pub struct ConnInfo {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ConnAddr {
     Standalone(String/*host*/, u16/*port*/, i64/*db*/),
-    Cluster(),
+    Cluster(String/*host*/, u16/*port*/, i64/*db*/),
     Sentinel {
         host: String,
         port: u16,
