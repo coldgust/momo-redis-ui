@@ -8,6 +8,7 @@ use tokio::sync::RwLock;
 mod migration;
 mod redis_commands;
 mod types;
+mod connection;
 
 pub struct AppState {
     connections_map: RwLock<HashMap<String, ConnectionManager>>,

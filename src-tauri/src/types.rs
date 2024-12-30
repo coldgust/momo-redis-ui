@@ -15,6 +15,8 @@ pub enum ServerError {
     #[error(transparent)]
     IoError(#[from] std::io::Error),
 
+    #[error(transparent)]
+    SQLError(#[from] sqlx::Error),
 }
 
 impl serde::Serialize for ServerError {
@@ -35,6 +37,10 @@ impl serde::Serialize for ServerError {
             ServerError::IoError(_) => Error {
                 msg: err_msg,
                 kind: ErrorKind::IO,
+            },
+            ServerError::SQLError(_) => Error {
+                msg: err_msg,
+                kind: ErrorKind::SQL,
             },
         };
         err.serialize(serializer)

@@ -13,6 +13,7 @@ pub enum ErrorKind {
     Redis,
     UnsupportedConnType,
     IO,
+    SQL
 }
 
 impl Display for Error {
