@@ -48,7 +48,7 @@ async fn get_or_create_connection(
  async fn create_client(info: ConnInfo) -> ServerResult<Client> {
     let (host, port, db) = match info.addr {
         ConnAddr::Standalone(h, p, db) => (h, p, db),
-        ConnAddr::Cluster(h, p, db) => (h, p, db),
+        ConnAddr::Cluster(h, p) => (h, p, 0),
         _ => return Err(ServerError::UnsupportedConnType),
     };
     let redis_conn_info = RedisConnectionInfo {
