@@ -5,5 +5,7 @@
   "cancel": "取消",
   "setting": {
     "language": "语言"
-  }
+  },
+  "host": "host",
+  "port": "port"
 }

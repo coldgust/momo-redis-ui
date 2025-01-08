@@ -5,5 +5,7 @@
   "cancel": "cancel",
   "setting": {
     "language": "Language"
-  }
+  },
+  "host": "host",
+  "port": "port"
 }
