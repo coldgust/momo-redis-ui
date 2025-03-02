@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2.0.0",
-  "productName": "one-redis-ui",
+  "productName": "momo-redis-ui",
   "version": "0.1.0",
-  "identifier": "com.one-redis-ui.app",
+  "identifier": "com.momo-redis-ui.app",
   "build": {
     "beforeDevCommand": "trunk serve",
     "devUrl": "http://localhost:1420",
@@ -13,7 +13,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "one-redis-ui",
+        "title": "momo-redis-ui",
         "width": 1200,
         "height": 800
         

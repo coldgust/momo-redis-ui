@@ -1,5 +1,5 @@
 [package]
-name = "momo-redis-ui"
+name = "momo-redis-ui-frontend"
 version = "0.1.0"
 edition = "2021"
 
